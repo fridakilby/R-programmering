@@ -21,15 +21,15 @@ summary(lm_md)
 par(mfrow = c(2, 2))
 plot(lm_md)
 
-# Create a dummy variable for location
+# Create a dummy variable for location --------------------------------------------------------------------
 manual_data$location_dalarna <- ifelse(manual_data$Location == "Dalarna", 1, 0)
 manual_data$location_gbg <- ifelse(manual_data$Location == "Göteborg", 1, 0)
 manual_data$location_sthlm <- ifelse(manual_data$Location == "Stockholm", 1, 0)
 manual_data$location_orebro <- ifelse(manual_data$Location == "Örebro", 1, 0)
 manual_data$location_uppsala <- ifelse(manual_data$Location == "Uppsala", 1, 0)
-# om ingen av ovan är location gotland
+# if none of above location is gotland --------------------------------------------------------------------
 
-# Show the updated data frame
+# Show the updated data frame --------------------------------------------------------------------
 str(manual_data)
 
 lm_md2 <- lm(Price ~ Miles + ModelYear + Horsepower + location_dalarna + location_uppsala + location_orebro + location_sthlm + location_gbg, data = manual_data)
@@ -57,7 +57,7 @@ BIC(lm_md4)
 
 confint(lm_md4)
 
-# New data that we want to predict
+# New data that we want to predict --------------------------------------------------------------------
 new_car <- data.frame(
   Miles = c(3000, 3000, 3000, 3000, 3000,3000),
   ModelYear = c(2022, 2022, 2022, 2022, 2022,2022),
@@ -69,7 +69,7 @@ new_car <- data.frame(
   location_gbg = c(0,0,0,0,1,0)
 )
 
-# Create CI & PI for predictions
+# Create CI & PI for predictions --------------------------------------------------------------------
 confidence_intervals <- predict(lm_md4, newdata = new_car, interval = "confidence", level = 0.95)
 prediction_intervals <- predict(lm_md4, newdata = new_car, interval = "prediction", level = 0.95)
 
@@ -95,7 +95,7 @@ summary(lm_dd)
 plot(lm_dd)
 vif(lm_dd)
 
-# Create a dummy variable for location
+# Create a dummy variable for location --------------------------------------------------------------------
 datascraping_data$location_stockholm <- ifelse(datascraping_data$Location == "Stockholm", 1, 0)
 datascraping_data$location_gotland <- ifelse(datascraping_data$Location == "Gotland", 1, 0)
 datascraping_data$location_goteborg <- ifelse(datascraping_data$Location == "Göteborg", 1, 0)
@@ -125,7 +125,7 @@ datascraping_data[1920,]
 datascraping_data$Price <- ifelse(datascraping_data$Price == 1, NaN, datascraping_data$Price)
 summary(datascraping_data)
 
-# Korrelationsmatris --------------------------------------------------------------------
+# Create correlation matrix --------------------------------------------------------------------
 corr_matrix <- round(cor(datascraping_data[,c(2,4,9,10,11,12,13,14,15)]),2)
 corr_matrix
 
@@ -160,7 +160,7 @@ new_car <- data.frame(
   location_orebro = c(0,0,0,0,0,0,1,0)
 )
 
-# Create CI & PI for predictions
+# Create CI & PI for predictions --------------------------------------------------------------------
 confidence_intervals <- predict(lm_dd4, newdata = new_car, interval = "confidence", level = 0.95)
 prediction_intervals <- predict(lm_dd4, newdata = new_car, interval = "prediction", level = 0.95)
 
